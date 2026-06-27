@@ -2,8 +2,9 @@ package com.multiplayer.mod.client.screen;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.multiplayer.mod.Multiplayer;
 
 /**
  * Ein Screen mit Schiebetür-Animation
@@ -30,16 +31,10 @@ public class SlidingMultiplayerScreen extends Screen {
         // "Join Game" Button - NUR für die Schiebetür
         this.addRenderableWidget(Button.builder(Component.literal("Join Game"), (button) -> {
             // Join Game Logik für die Schiebetür
-            this.minecraft.setScreen(new Screen(Component.literal("Joining Game...")) {
-                @Override
-                public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-                    this.renderBackground(poseStack);
-                    this.drawCenteredString(poseStack, this.getFont(), "Joining Game...", this.width / 2, this.height / 2, 0xFFFFFF);
-                }
-            });
+            Multiplayer.LOGGER.info("Join Game Button gedrückt");
         })
         .pos(this.getSlideX() + 10, 20)
-        .size(SLIDE_WIDTH - 20, 20)
+        .width(SLIDE_WIDTH - 20)
         .build());
         
         // "Delete" Button - NUR für die Schiebetür
@@ -48,7 +43,7 @@ public class SlidingMultiplayerScreen extends Screen {
             Multiplayer.LOGGER.info("Delete Button gedrückt");
         })
         .pos(this.getSlideX() + 10, 50)
-        .size(SLIDE_WIDTH - 20, 20)
+        .width(SLIDE_WIDTH - 20)
         .build());
         
         // "Refresh" Button - NUR für die Schiebetür
@@ -57,7 +52,7 @@ public class SlidingMultiplayerScreen extends Screen {
             Multiplayer.LOGGER.info("Refresh Button gedrückt");
         })
         .pos(this.getSlideX() + 10, 80)
-        .size(SLIDE_WIDTH - 20, 20)
+        .width(SLIDE_WIDTH - 20)
         .build());
         
         // "Back" Button - schließt die Schiebetür
@@ -65,7 +60,7 @@ public class SlidingMultiplayerScreen extends Screen {
             this.isOpening = false; // Fahre die Tür zu
         })
         .pos(this.getSlideX() + 10, this.height - 30)
-        .size(SLIDE_WIDTH - 20, 20)
+        .width(SLIDE_WIDTH - 20)
         .build());
     }
     
@@ -95,34 +90,20 @@ public class SlidingMultiplayerScreen extends Screen {
     }
     
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(poseStack);
-        
-        // Speichere die aktuelle Transformation
-        poseStack.pushPose();
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         
         // Berechne die Position
         int slideX = this.getSlideX();
         
-        // Verschiebe den gesamten Content
-        poseStack.translate(slideX, 0, 0);
-        
         // Zeichne den Schiebetür-Container (Hintergrund)
-        fill(poseStack, 0, 0, SLIDE_WIDTH, this.height, 0xFF8B8B8B); // Grauer Hintergrund
+        guiGraphics.fill(slideX, 0, slideX + SLIDE_WIDTH, this.height, 0xFF8B8B8B); // Grauer Hintergrund
         
-        // Zeichne Border
-        fill(poseStack, 0, 0, 2, this.height, 0xFF000000); // Linke Kante
+        // Zeichne Border (linke Kante)
+        guiGraphics.fill(slideX, 0, slideX + 2, this.height, 0xFF000000); // Linke Kante
         
-        // Restauriere Transformation
-        poseStack.popPose();
-        
-        // Render Standard GUI Elements mit Translation
-        poseStack.pushPose();
-        poseStack.translate(slideX, 0, 0);
-        
-        super.render(poseStack, mouseX, mouseY, partialTick);
-        
-        poseStack.popPose();
+        // Render Standard GUI Elements
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
     
     @Override
