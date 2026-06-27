@@ -9,7 +9,7 @@ import com.multiplayer.mod.Multiplayer;
 /**
  * Ein Screen mit Schiebetür-Animation
  * Das Interface wird von rechts hereingeschoben und kann wieder zurückgefahren werden
- * Die Buttons gelten nur für dieses Interface
+ * Die Buttons gelten nur für dieses Interface mit schönem Design
  */
 public class SlidingMultiplayerScreen extends Screen {
     
@@ -17,7 +17,11 @@ public class SlidingMultiplayerScreen extends Screen {
     private float slideProgress = 0.3f; // Startet bereits 30% offen (sichtbar am rechten Rand)
     private boolean isOpening = true; // true = fahre raus, false = fahre rein
     private static final float SLIDE_SPEED = 0.1f; // Animation Geschwindigkeit (höher = schneller)
-    private static final int SLIDE_WIDTH = 200; // Breite der Schiebetür in Pixeln
+    private static final int SLIDE_WIDTH = 250; // Breite der Schiebetür in Pixeln
+    private static final int BACKGROUND_COLOR = 0xFF1A1A1A; // Dunkles Grau
+    private static final int HEADER_COLOR = 0xFF0D0D0D; // Noch dunkler für Header
+    private static final int BORDER_COLOR = 0xFF00AA00; // Grüne Akzentfarbe
+    private static final int TEXT_COLOR = 0xFFFFFFFF; // Weiß
     
     public SlidingMultiplayerScreen(Screen previousScreen) {
         super(Component.literal("Multiplayer"));
@@ -28,39 +32,53 @@ public class SlidingMultiplayerScreen extends Screen {
     protected void init() {
         super.init();
         
-        // "Join Game" Button - NUR für die Schiebetür
-        this.addRenderableWidget(Button.builder(Component.literal("Join Game"), (button) -> {
-            // Join Game Logik für die Schiebetür
+        int slideX = this.getSlideX();
+        int buttonWidth = SLIDE_WIDTH - 30;
+        int buttonX = slideX + 15;
+        
+        // "Join Game" Button
+        this.addRenderableWidget(Button.builder(Component.literal("🌐 Join Game"), (button) -> {
             Multiplayer.LOGGER.info("Join Game Button gedrückt");
         })
-        .pos(this.getSlideX() + 10, 20)
-        .width(SLIDE_WIDTH - 20)
+        .pos(buttonX, 60)
+        .width(buttonWidth)
+        .height(30)
         .build());
         
-        // "Delete" Button - NUR für die Schiebetür
-        this.addRenderableWidget(Button.builder(Component.literal("Delete"), (button) -> {
-            // Delete Logik für die Schiebetür
+        // "Delete" Button
+        this.addRenderableWidget(Button.builder(Component.literal("🗑️ Delete"), (button) -> {
             Multiplayer.LOGGER.info("Delete Button gedrückt");
         })
-        .pos(this.getSlideX() + 10, 50)
-        .width(SLIDE_WIDTH - 20)
+        .pos(buttonX, 100)
+        .width(buttonWidth)
+        .height(30)
         .build());
         
-        // "Refresh" Button - NUR für die Schiebetür
-        this.addRenderableWidget(Button.builder(Component.literal("Refresh"), (button) -> {
-            // Refresh Logik für die Schiebetür
+        // "Refresh" Button
+        this.addRenderableWidget(Button.builder(Component.literal("🔄 Refresh"), (button) -> {
             Multiplayer.LOGGER.info("Refresh Button gedrückt");
         })
-        .pos(this.getSlideX() + 10, 80)
-        .width(SLIDE_WIDTH - 20)
+        .pos(buttonX, 140)
+        .width(buttonWidth)
+        .height(30)
+        .build());
+        
+        // "Edit" Button
+        this.addRenderableWidget(Button.builder(Component.literal("✏️ Edit"), (button) -> {
+            Multiplayer.LOGGER.info("Edit Button gedrückt");
+        })
+        .pos(buttonX, 180)
+        .width(buttonWidth)
+        .height(30)
         .build());
         
         // "Back" Button - schließt die Schiebetür
-        this.addRenderableWidget(Button.builder(Component.literal("Back"), (button) -> {
+        this.addRenderableWidget(Button.builder(Component.literal("← Back"), (button) -> {
             this.isOpening = false; // Fahre die Tür zu
         })
-        .pos(this.getSlideX() + 10, this.height - 30)
-        .width(SLIDE_WIDTH - 20)
+        .pos(buttonX, this.height - 40)
+        .width(buttonWidth)
+        .height(30)
         .build());
     }
     
@@ -97,11 +115,26 @@ public class SlidingMultiplayerScreen extends Screen {
         // Berechne die Position
         int slideX = this.getSlideX();
         
-        // Zeichne den Schiebetür-Container (Hintergrund)
-        guiGraphics.fill(slideX, 0, slideX + SLIDE_WIDTH, this.height, 0xFF8B8B8B); // Grauer Hintergrund
+        // Zeichne den Schiebetür-Container (Haupthintergrund)
+        guiGraphics.fill(slideX, 0, slideX + SLIDE_WIDTH, this.height, BACKGROUND_COLOR);
         
-        // Zeichne Border (linke Kante der Schiebetür)
-        guiGraphics.fill(slideX, 0, slideX + 2, this.height, 0xFF000000); // Linke Kante
+        // Zeichne Header-Bereich
+        guiGraphics.fill(slideX, 0, slideX + SLIDE_WIDTH, 50, HEADER_COLOR);
+        
+        // Zeichne obere grüne Linie (Akzent)
+        guiGraphics.fill(slideX, 0, slideX + SLIDE_WIDTH, 3, BORDER_COLOR);
+        
+        // Zeichne linke Kante (grüne Linie)
+        guiGraphics.fill(slideX, 0, slideX + 3, this.height, BORDER_COLOR);
+        
+        // Zeichne unten grüne Linie
+        guiGraphics.fill(slideX, this.height - 3, slideX + SLIDE_WIDTH, this.height, BORDER_COLOR);
+        
+        // Zeichne Titel
+        guiGraphics.drawCenteredString(this.font, "Server Manager", slideX + SLIDE_WIDTH / 2, 15, TEXT_COLOR);
+        
+        // Zeichne Trennlinie nach Header
+        guiGraphics.fill(slideX + 10, 45, slideX + SLIDE_WIDTH - 10, 46, BORDER_COLOR);
         
         // Render Standard GUI Elements
         super.render(guiGraphics, mouseX, mouseY, partialTick);
