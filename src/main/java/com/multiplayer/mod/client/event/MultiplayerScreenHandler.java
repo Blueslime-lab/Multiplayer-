@@ -6,7 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import com.multiplayer.mod.client.screen.SlidingMultiplayerScreen;
 import com.multiplayer.mod.Multiplayer;
@@ -14,7 +14,7 @@ import com.multiplayer.mod.Multiplayer;
 /**
  * Event Handler um den "Sliding Door" Button zum Multiplayer Screen hinzuzufügen
  */
-@Mod.EventBusSubscriber(modid = Multiplayer.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Multiplayer.MODID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class MultiplayerScreenHandler {
     
     @SubscribeEvent
