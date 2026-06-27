@@ -1,0 +1,13 @@
+{
+  "itemGroup.multiplayer": "Example Mod Tab",
+  "block.multiplayer.example_block": "Example Block",
+  "item.multiplayer.example_item": "Example Item",
+
+  "multiplayer.configuration.title": "Multiplayer Configs",
+  "multiplayer.configuration.section.multiplayer.common.toml": "Multiplayer Configs",
+  "multiplayer.configuration.section.multiplayer.common.toml.title": "Multiplayer Configs",
+  "multiplayer.configuration.items": "Item List",
+  "multiplayer.configuration.logDirtBlock": "Log Dirt Block",
+  "multiplayer.configuration.magicNumberIntroduction": "Magic Number Text",
+  "multiplayer.configuration.magicNumber": "Magic Number"
+}
