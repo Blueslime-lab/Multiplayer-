@@ -8,13 +8,13 @@ import com.multiplayer.mod.Multiplayer;
 
 /**
  * Ein Screen mit Schiebetür-Animation
- * Das Interface wird herausgeschoben und kann wieder zurückgefahren werden
+ * Das Interface wird von rechts hereingeschoben und kann wieder zurückgefahren werden
  * Die Buttons gelten nur für dieses Interface
  */
 public class SlidingMultiplayerScreen extends Screen {
     
     private final Screen previousScreen;
-    private float slideProgress = 0.0f; // 0 = hidden, 1 = fully visible
+    private float slideProgress = 0.3f; // Startet bereits 30% offen (sichtbar am rechten Rand)
     private boolean isOpening = true; // true = fahre raus, false = fahre rein
     private static final float SLIDE_SPEED = 0.1f; // Animation Geschwindigkeit (höher = schneller)
     private static final int SLIDE_WIDTH = 200; // Breite der Schiebetür in Pixeln
@@ -84,6 +84,7 @@ public class SlidingMultiplayerScreen extends Screen {
     
     /**
      * Berechnet die X-Position der Schiebetür basierend auf Progress
+     * Startet von rechts und fährt nach links rein
      */
     private int getSlideX() {
         return (int) (this.width - (SLIDE_WIDTH * slideProgress));
@@ -99,7 +100,7 @@ public class SlidingMultiplayerScreen extends Screen {
         // Zeichne den Schiebetür-Container (Hintergrund)
         guiGraphics.fill(slideX, 0, slideX + SLIDE_WIDTH, this.height, 0xFF8B8B8B); // Grauer Hintergrund
         
-        // Zeichne Border (linke Kante)
+        // Zeichne Border (linke Kante der Schiebetür)
         guiGraphics.fill(slideX, 0, slideX + 2, this.height, 0xFF000000); // Linke Kante
         
         // Render Standard GUI Elements
