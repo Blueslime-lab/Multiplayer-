@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import com.multiplayer.mod.client.screen.SlidingMultiplayerScreen;
 import com.multiplayer.mod.Multiplayer;
@@ -18,7 +17,6 @@ import com.multiplayer.mod.Multiplayer;
 @Mod.EventBusSubscriber(modid = Multiplayer.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class MultiplayerScreenHandler {
     
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onScreenOpen(ScreenEvent.Init.Post event) {
         Screen screen = event.getScreen();
