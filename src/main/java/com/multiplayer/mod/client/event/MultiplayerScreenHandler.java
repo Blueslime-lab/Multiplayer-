@@ -14,7 +14,7 @@ import com.multiplayer.mod.Multiplayer;
 /**
  * Event Handler um den "Sliding Door" Button zum Multiplayer Screen hinzuzufügen
  */
-@EventBusSubscriber(modid = Multiplayer.MODID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Multiplayer.MODID, value = Dist.CLIENT)
 public class MultiplayerScreenHandler {
     
     @SubscribeEvent
