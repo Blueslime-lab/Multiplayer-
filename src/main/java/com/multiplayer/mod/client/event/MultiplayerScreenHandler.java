@@ -25,7 +25,7 @@ public class MultiplayerScreenHandler {
         if (screen instanceof JoinMultiplayerScreen) {
             JoinMultiplayerScreen multiplayerScreen = (JoinMultiplayerScreen) screen;
             
-            // Füge den "Sliding Door" Button hinzu
+            // Füge den "Sliding Door" Button am rechten Rand hinzu
             Button slidingDoorButton = Button.builder(Component.literal("Sliding Door"), (button) -> {
                 // Öffne die Schiebetür
                 Multiplayer.LOGGER.info("Sliding Door Button gedrückt - öffne SlidingMultiplayerScreen");
@@ -33,7 +33,7 @@ public class MultiplayerScreenHandler {
                     multiplayerScreen.getMinecraft().setScreen(new SlidingMultiplayerScreen(multiplayerScreen));
                 }
             })
-            .pos(multiplayerScreen.width / 2 - 100, 50)
+            .pos(multiplayerScreen.width - 210, 50)
             .size(200, 20)
             .build();
             
